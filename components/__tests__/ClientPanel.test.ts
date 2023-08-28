@@ -94,6 +94,30 @@ describe("ClientPanel.vue", () => {
     expect(wrapper.text()).toContain("from Ireland")
   })
 
+  it("displays a message if a client is not found", async () => {
+    const mockUseClientResult = {
+      data: null,
+      pending: false,
+      error: null,
+    }
+    const mockUseClient = vi.fn().mockResolvedValue(mockUseClientResult)
+
+    vi.stubGlobal("useClient", mockUseClient)
+
+    const wrapper = mountWithVuetify(SuspenseWrapper, {
+      global: {
+        mocks: {
+          $route: { params: { clientId: "notarealclient" } },
+        },
+      },
+    })
+
+    await flushPromises()
+
+    expect(wrapper.text()).toContain("Client not found")
+    expect(wrapper.text()).not.toContain("Test Client")
+  })
+
   it("displays fallback text if no quote is available", async () => {
     const mockUseClientResult = {
       data: { id: 1, name: "Test Client", title: "Mr.", nationality: "Ireland" },

@@ -3,7 +3,6 @@ import DefaultHeader from "../DefaultHeader.vue"
 import { mountWithVuetify } from "../../__tests__/setup"
 
 describe("DefaultHeader.vue", () => {
-  // Basic rendering test
   test("renders DefaultHeader component", () => {
     const wrapper = mountWithVuetify(DefaultHeader)
     expect(wrapper.exists()).toBe(true)

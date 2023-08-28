@@ -16,7 +16,11 @@ const handleSearch = (newSearchString: string) => {
     style="top: 32px; height: calc(100vh - 184px)"
   >
     <ClientSearch :is-loading="store.isLoading" @on-search="handleSearch" />
-    <ClientList :clients="store.clients || []" :search-string="store.searchString" />
+    <ClientList
+      :is-loading="store.isLoading"
+      :clients="store.clients || []"
+      :search-string="store.searchString"
+    />
   </v-navigation-drawer>
 </template>
 

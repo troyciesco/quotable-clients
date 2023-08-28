@@ -3,11 +3,13 @@ import { Client } from "~/types"
 const props = defineProps<{
   clients: Client[]
   searchString: string
+  isLoading: boolean
 }>()
 const { clients, searchString } = toRefs(props)
 </script>
 <template>
   <v-sheet class="mx-auto" max-width="304">
+    <div v-if="isLoading" class="px-2">Loading...</div>
     <div v-if="clients.length === 0 && !searchString" class="px-2">No clients yet!</div>
     <div v-else-if="clients.length === 0 && searchString" class="px-2">
       No clients match your search criteria.

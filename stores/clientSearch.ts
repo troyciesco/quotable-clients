@@ -4,7 +4,7 @@ import useClients from "~/composables/useClients"
 
 export const useSearchStore = defineStore("search", () => {
   const searchString = ref("")
-  const isLoading = ref(false)
+  const isLoading = ref(true)
   const clients = ref<Client[]>([])
   const initialized = ref(false)
 

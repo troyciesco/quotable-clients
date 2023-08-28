@@ -14,6 +14,7 @@ onMounted(() => {
 
 <template>
   <v-navigation-drawer
+    permanent
     rounded
     elevation="1"
     class="ml-8"

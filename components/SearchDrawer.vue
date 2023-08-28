@@ -6,6 +6,10 @@ const store = useSearchStore()
 const handleSearch = (newSearchString: string) => {
   store.searchClients(newSearchString)
 }
+
+onMounted(() => {
+  store.initialize()
+})
 </script>
 
 <template>

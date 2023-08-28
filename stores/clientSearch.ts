@@ -9,14 +9,29 @@ export const useSearchStore = defineStore("search", () => {
   const clients = ref<Client[]>([])
   const initialized = ref(false)
 
+  // if (!initialized.value) {
+  //   ;(async () => {
+  //     const { data, error: fetchError } = await useClients({ searchString: "" })
+  //     clients.value = data.value || []
+  //     isLoading.value = false
+  //     initialized.value = true
+  //     error.value = fetchError.value
+  //   })()
+  // }
+
+  const initialize = async () => {
+    isLoading.value = true
+    searchString.value = ""
+    const { data, error: fetchError } = await useClients({ searchString: "" })
+    clients.value = data.value || []
+    isLoading.value = false
+    error.value = fetchError?.value
+  }
+
   if (!initialized.value) {
-    ;(async () => {
-      const { data, error: fetchError } = await useClients({ searchString: "" })
-      clients.value = data.value || []
-      isLoading.value = false
+    initialize().then(() => {
       initialized.value = true
-      error.value = fetchError.value
-    })()
+    })
   }
 
   const searchClients = async (newSearchString: string) => {
@@ -34,5 +49,6 @@ export const useSearchStore = defineStore("search", () => {
     clients,
     searchClients,
     error,
+    initialize,
   }
 })

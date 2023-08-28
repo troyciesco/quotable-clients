@@ -1,11 +1,12 @@
-import { setActivePinia } from "pinia"
-import { beforeEach, describe, it, expect, vi } from "vitest"
-import { createTestingPinia } from "@pinia/testing"
+import { createPinia, setActivePinia } from "pinia"
+import { beforeEach, describe, it, expect, vi, afterEach } from "vitest"
 import { useSearchStore } from "../clientSearch"
+
+const TEST_SEARCH_STRING = "Test"
 
 describe("Client Search Store", () => {
   beforeEach(() => {
-    setActivePinia(createTestingPinia())
+    setActivePinia(createPinia())
     const mockData = [
       {
         id: 1,
@@ -22,10 +23,21 @@ describe("Client Search Store", () => {
         nationality: "Scotland",
       },
     ]
+
     vi.stubGlobal(
       "useFetch",
-      vi.fn().mockResolvedValue({ data: mockData, pending: false, error: null }),
+      vi.fn(() => {
+        const filteredData = TEST_SEARCH_STRING
+          ? mockData.filter((client) => client.name.includes(TEST_SEARCH_STRING))
+          : mockData
+
+        return { data: { value: filteredData }, pending: false, error: null }
+      }),
     )
+  })
+
+  afterEach(() => {
+    vi.clearAllMocks()
   })
 
   it("initializes with default values", () => {
@@ -37,9 +49,9 @@ describe("Client Search Store", () => {
 
   it("searches for clients", async () => {
     const store = useSearchStore()
-    await store.searchClients("Test")
+    await store.searchClients(TEST_SEARCH_STRING)
 
-    expect(store.searchClients).toHaveBeenCalledTimes(1)
-    expect(store.searchClients).toHaveBeenLastCalledWith("Test")
+    expect(store.clients).toHaveLength(1)
+    expect(store.clients[0].name).toEqual("Test Client")
   })
 })

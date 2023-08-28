@@ -1,0 +1,22 @@
+{
+  "root": true,
+  "parser": "vue-eslint-parser",
+  "extends": [
+    "@nuxtjs/eslint-config-typescript",
+    "plugin:nuxt/recommended",
+    "plugin:vue/vue3-recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["risxss"],
+  "rules": {
+    "risxss/catch-potential-xss-vue": 0,
+    "vue/no-v-html": "off",
+    "vue/no-v-text-v-html-on-component": "off"
+  },
+  "overrides": [
+    {
+      "files": ["layouts/*.vue", "pages/**/*.vue"],
+      "rules": { "vue/multi-word-component-names": "off" }
+    }
+  ]
+}

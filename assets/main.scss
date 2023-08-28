@@ -1,0 +1,17 @@
+:root {
+  --bg: #b22234;
+  --bg-gradient: linear-gradient(135deg, #b22234, #3c3b6e);
+}
+
+.mt-18 {
+  margin-top: 72px;
+}
+
+body {
+  background: var(--bg);
+  background-image: var(--bg-gradient);
+}
+
+.transparent-background {
+  background: transparent !important;
+}

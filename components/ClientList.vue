@@ -10,7 +10,9 @@ const { clients, searchString } = toRefs(props)
 <template>
   <v-sheet class="mx-auto" max-width="304">
     <div v-if="isLoading" class="px-2">Loading...</div>
-    <div v-if="clients.length === 0 && !searchString" class="px-2">No clients yet!</div>
+    <div v-if="!isLoading && clients.length === 0 && !searchString" class="px-2">
+      No clients yet!
+    </div>
     <div v-else-if="clients.length === 0 && searchString" class="px-2">
       No clients match your search criteria.
     </div>

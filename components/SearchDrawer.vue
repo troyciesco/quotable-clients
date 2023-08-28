@@ -18,6 +18,7 @@ const handleSearch = (newSearchString: string) => {
     <ClientSearch :is-loading="store.isLoading" @on-search="handleSearch" />
     <ClientList
       :is-loading="store.isLoading"
+      :has-error="!!store.error"
       :clients="store.clients || []"
       :search-string="store.searchString"
     />

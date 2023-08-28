@@ -2,11 +2,12 @@ import { stripHtml } from "string-strip-html"
 import { JSDOM } from "jsdom"
 import createDOMPurify from "dompurify"
 import { Client } from "~/types"
+import db from "~/db.json"
 const { window } = new JSDOM("")
 const DOMPurify = createDOMPurify(window)
-import db from "~/db.json"
 
-export default defineEventHandler(async (event): Promise<Client[]> => {
+// export default defineEventHandler(async (event): Promise<Client[]> => {
+export default defineEventHandler((event): Client[] => {
   const excludedSearchFields = ["id", "avatar"]
   const query = getQuery(event)
   // const initialData: Client[] = await $fetch(`http://localhost:3001/clients`)
@@ -16,8 +17,12 @@ export default defineEventHandler(async (event): Promise<Client[]> => {
     return initialData.map((client) => {
       const sanitizedClient: Client = { ...client }
       for (const key in sanitizedClient) {
-        if (typeof sanitizedClient[key] === "string") {
-          sanitizedClient[key] = DOMPurify.sanitize(sanitizedClient[key])
+        const typedKey = key as keyof typeof sanitizedClient
+
+        if (typeof sanitizedClient[typedKey] === "string") {
+          sanitizedClient[typedKey] = DOMPurify.sanitize(
+            sanitizedClient[typedKey] as string,
+          ) as never
         }
       }
       return sanitizedClient
@@ -37,8 +42,11 @@ export default defineEventHandler(async (event): Promise<Client[]> => {
         if (field.toString().toLowerCase().includes(query.search!.toString().toLowerCase())) {
           const sanitizedClient: Client = { ...client }
           for (const key in sanitizedClient) {
-            if (typeof sanitizedClient[key] === "string") {
-              sanitizedClient[key] = DOMPurify.sanitize(sanitizedClient[key])
+            const typedKey = key as keyof typeof sanitizedClient
+            if (typeof sanitizedClient[typedKey] === "string") {
+              sanitizedClient[typedKey] = DOMPurify.sanitize(
+                sanitizedClient[typedKey] as string,
+              ) as never
             }
           }
           data.push(sanitizedClient)

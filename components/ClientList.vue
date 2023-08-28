@@ -4,11 +4,15 @@ const props = defineProps<{
   clients: Client[]
   searchString: string
   isLoading: boolean
+  hasError: boolean
 }>()
 const { clients, searchString } = toRefs(props)
 </script>
 <template>
   <v-sheet class="mx-auto" max-width="304">
+    <div v-if="hasError" class="px-2 font-weight-bold text-red-darken-2">
+      There was an error fetching clients. Please try again.
+    </div>
     <div v-if="!isLoading && clients.length === 0 && !searchString" class="px-2">
       No clients yet!
     </div>

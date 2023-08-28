@@ -5,7 +5,7 @@ import { Client } from "~/types"
 const route = useRoute()
 
 const { data } = await useClient({ clientId: route.params.clientId as string })
-const client: Ref<Client> = ref(data)
+const client: Ref<Client | null> = ref(data)
 
 const title = computed(() => `Quotable Clients | ${stripHtml(client.value?.name || "").result}`)
 
@@ -17,7 +17,7 @@ const backgrounds: any = {
 }
 
 const bg = computed(() =>
-  client.value.nationality ? backgrounds[client.value.nationality] : ["#b22234", "#3c3b6e"],
+  client.value?.nationality ? backgrounds[client.value.nationality] : ["#b22234", "#3c3b6e"],
 )
 
 useHead({
@@ -63,6 +63,12 @@ watch(
         This client doesn't have any quotes yet. Ask them to say something quotable!
       </p>
     </v-card-text>
+  </v-card>
+  <v-card v-else class="pa-8" style="min-height: calc(100vh - 184px)">
+    <v-card-title class="text-h3 mb-16" style="line-height: initial">Client not found</v-card-title>
+    <div class="d-flex flex-col justify-center items-center pt-16">
+      <p class="text-h4">Try searching for a different client!</p>
+    </div>
   </v-card>
 </template>
 

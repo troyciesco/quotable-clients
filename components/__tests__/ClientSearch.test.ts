@@ -10,34 +10,21 @@ describe("ClientSearch", () => {
     vi.restoreAllMocks()
   })
 
-  it("renders ClientSearch", () => {
+  it("emits onSearch after debounce", async () => {
     const wrapper = mountWithVuetify(ClientSearch, {
       props: {
         isLoading: false,
+        searchString: "",
       },
     })
 
     const component = wrapper.findComponent(ClientSearch)
-    expect(component.exists()).toBe(true)
+    const textField = component.find('input[id="input-0"]')
+
+    await textField.setValue("Test")
+    vi.advanceTimersByTime(350)
+
+    expect(component.emitted().onSearch).toBeTruthy()
+    expect(component.emitted().onSearch[0]).toEqual(["Test"])
   })
-
-  // it("emits onSearch after debounce", async () => {
-  //   const wrapper = mountWithVuetify(ClientSearch, {
-  //     props: {
-  //       isLoading: false,
-  //       searchString: "",
-  //     },
-  //   })
-
-  //   const textField = wrapper.find('input[id="input-0"]')
-  //   console.log(textField)
-  //   await textField.setValue("Test")
-  //   await textField.trigger("input")
-  //   vi.advanceTimersByTime(350)
-
-  //   console.log(wrapper.html())
-  //   console.log(JSON.stringify(wrapper.emitted()))
-  //   expect(wrapper.emitted().onSearch).toBeTruthy()
-  //   expect(wrapper.emitted().onSearch[0]).toEqual(["Test"])
-  // })
 })

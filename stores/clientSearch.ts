@@ -25,7 +25,7 @@ export const useSearchStore = defineStore("search", () => {
     const { data, error: fetchError } = await useClients({ searchString: newSearchString })
     clients.value = data.value || []
     isLoading.value = false
-    error.value = fetchError as any
+    error.value = fetchError.value
   }
 
   return {

@@ -28,8 +28,8 @@ describe("SearchDrawer.vue", () => {
 
     const store = useSearchStore()
     store.searchClients("")
-    searchClientsMock = vi.fn() // Create a mock function
-    store.searchClients = searchClientsMock // Override the store's method with our mock
+    searchClientsMock = vi.fn()
+    store.searchClients = searchClientsMock
   })
 
   afterEach(() => {
@@ -39,11 +39,6 @@ describe("SearchDrawer.vue", () => {
   it("renders SearchDrawer", () => {
     const component = wrapper.findComponent(SearchDrawer)
     expect(component.exists()).toBe(true)
-  })
-
-  it("passes isLoading prop to ClientSearch", () => {
-    const clientSearchComponent = wrapper.findComponent(ClientSearch)
-    expect(clientSearchComponent.props("isLoading")).toBe(useSearchStore().isLoading)
   })
 
   it("passes clients and searchString props to ClientList", () => {

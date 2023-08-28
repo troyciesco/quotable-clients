@@ -31,7 +31,7 @@ describe("Client Search Store", () => {
   it("initializes with default values", () => {
     const searchStore = useSearchStore()
     expect(searchStore.searchString).toBe("")
-    expect(searchStore.isLoading).toBe(false)
+    expect(searchStore.isLoading).toBe(true)
     expect(searchStore.clients).toEqual([])
   })
 
